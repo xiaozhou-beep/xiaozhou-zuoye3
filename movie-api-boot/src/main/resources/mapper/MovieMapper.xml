@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.mapper.MovieMapper">
+    <select id="queryMovieList" parameterType="com.fh.model.QueryObject" resultMap="MapList">
+      select m.*,
+      CONCAT(ifnull(a1.name,""),if(a2.name is null,'',','),ifnull(a2.name,"")) areaname,
+      CONCAT(ifnull(t.name,""),if(t.name is null,'','')) typename,i.image image
+       from t_movie m
+      left join t_movieimage i on m.mainImage=i.id
+      left join t_moviearearelation ma1 on m.id=ma1.movieId
+      left join t_moviearearelation ma2 on m.id=ma2.movieId
+      left join t_moviearea a1 on a1.id=ma1.areaId
+      left join t_moviearea a2 on a2.id=ma2.areaId
+      left join t_movietyperelation mt on mt.movieId=m.id
+      left join t_movietype t on t.id=mt.typeId
+       limit #{start},#{length}
+    </select>
+    <select id="queryCount" resultType="Integer" parameterType="com.fh.model.QueryObject">
+      select count(*)  FROM  t_movie
+    </select>
+    <resultMap id="MapList" type="Map">
+        <result property="id" column="id"></result>
+        <result property="name" column="name"></result>
+        <result property="mins" column="mins"></result>
+        <result property="IsHot" column="IsHot"></result>
+        <result property="grade" column="grade"></result>
+        <result property="showTime" column="showTime"></result>
+        <result property="introduce" column="introduce"></result>
+        <result property="createTime" column="createTime"></result>
+        <result property="updateTime" column="updateTime"></result>
+    </resultMap>
+    <sql id="">
+        <where>
+            <if test="">
+
+            </if>
+        </where>
+    </sql>
+</mapper>
